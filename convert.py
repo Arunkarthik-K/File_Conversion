@@ -7,7 +7,7 @@ def csv_to_json(data):
     # Read CSV data
     reader = csv.DictReader(data.splitlines())
 
-    # Convert CSV data to a list of dictionaries
+    # Convert CSV data to a JSON format
     return json.dumps([row for row in reader], indent=4)
 
 def csv_to_html(data):
@@ -23,6 +23,7 @@ def csv_to_html(data):
     return html
 
 def parse_prn(data):
+    # Parse PRN data
     lines = data.split('\n')
     if lines[0].startswith('SEP='):
         sep = lines[0].replace('SEP=', '')
@@ -32,6 +33,7 @@ def parse_prn(data):
     return lines
 
 def prn_to_json(data):
+    # Convert PRN data to a JSON format
     prn_data = parse_prn(data)
     headers = prn_data[0]
     result = []
@@ -40,6 +42,7 @@ def prn_to_json(data):
     return json.dumps(result, indent=4)
 
 def prn_to_html(data):
+    # Convert PRN data to HTML table format
     prn_data = parse_prn(data)
     html = "<table>\n"
     for i, row in enumerate(prn_data):
@@ -62,19 +65,19 @@ def main():
 
     # Determine the file extension
     _, file_extension = os.path.splitext(args.file)
-    file_extension = file_extension[1:].lower()  # Remove the dot and convert to lowercase
+    file_extension = file_extension[1:].lower()
 
     # Convert based on format option and file extension
     if args.format == "json":
         if file_extension == "prn":
-            result = prn_to_json(data)  # Assuming prn_to_json is defined
+            result = prn_to_json(data)
         else:
-            result = csv_to_json(data)  # Assuming csv_to_json is defined
-    else:  # HTML format
+            result = csv_to_json(data)  
+    else:
         if file_extension == "prn":
-            result = prn_to_html(data)  # Assuming prn_to_html is defined
+            result = prn_to_html(data)
         else:
-            result = csv_to_html(data)  # Assuming csv_to_html is defined
+            result = csv_to_html(data)
 
     print(result)
 
